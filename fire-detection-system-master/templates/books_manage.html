@@ -1,0 +1,41 @@
+{% extends "/shared/layout.html" %}
+{% block title %}Quản lý người nhận thông báo{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">Quản lý người nhận thông báo</h2>
+    <a href="{{ url_for('book_routes.add_book') }}" class="btn btn-primary mb-3">Thêm</a>
+    <form method="GET" class="mb-4">
+        <div class="input-group">
+            <input type="text" class="form-control" placeholder="Tìm kiếm" name="search">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Tìm kiếm</button>
+            </div>
+        </div>
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tên người nhận thông báo</th>
+                <th>Email</th>
+                <th>Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in books %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ book.name }}</td>
+                <td>{{ book.noti_email }}</td>
+                <td>
+                    <a href="{{ url_for('book_routes.edit_book', id=book.id) }}" class="btn btn-sm btn-primary">Sửa</a>
+                    <form method="POST" action="{{ url_for('book_routes.delete_book', id=book.id) }}" style="display: inline;">
+                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to delete this book?')">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

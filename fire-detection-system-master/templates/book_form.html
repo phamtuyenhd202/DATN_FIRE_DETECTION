@@ -1,0 +1,19 @@
+{% extends "/shared/layout.html" %}
+{% block title %}{{ action }} Book{% endblock %}
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4">{{ action }} người nhận thông báo</h2>
+    <form method="POST">
+        <div class="form-group">
+            <label for="name">Tên người nhận thông báo</label>
+            <input type="text" class="form-control" id="name" name="name" value="{{ book.name if book else '' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="noti_email">Email</label>
+            <input type="email" class="form-control" id="noti_email" name="noti_email" value="{{ book.noti_email if book else '' }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">{{ 'Update' if action == 'Edit' else 'Add' }}</button>
+        <a href="{{ url_for('book_routes.list_books') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

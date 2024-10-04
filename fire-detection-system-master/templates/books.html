@@ -1,0 +1,131 @@
+{% extends "/shared/layout.html" %}
+
+{% block title %}Quản lý người nhận thông báo{% endblock %}
+
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" href="/static/home.css" />
+{% endblock %}
+
+{% block content %}
+    <div class="container h-75">
+       <div style="width:100%; margin-top: 3em;">
+          {% if msg %}
+             <div class="alert alert-success">{{msg}}</div>
+          {% endif %}
+          <form action="/books/search" method="GET">
+            <div class="form-group">
+              <div style="width: 100%">
+              <div style="width: 90%; display: inline-block;">
+              <input type="search" name="keyword" autofocus class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" value="{{keyword}}" placeholder="Tìm kiếm người nhận thông báo...">
+              </div>
+             <button type="submit" style="margin-left: 5px;" class="btn btn-primary">Tìm kiếm</button>
+              </div>
+            </div>
+          </form>
+       </div>
+
+       <div style="width:100%; margin-top: 3em;">
+          <button id="addRecipientBtn" class="btn btn-success mb-3">Thêm người nhận</button>
+          {% if books %}
+             {% if search %}
+             <h4>Tìm thấy ({{count}})</h4>
+             {% endif %}
+             <div class="row">
+             {% for book in books %}
+             <div class="col-md-4 mb-4">
+               <div class="card book">
+                 <div class="card-body">
+                   <h5 class="card-title">{{book['name']}}</h5>
+                   <p class="card-text">Email: {{book['noti_email']}}</p>
+                   <button class="btn btn-outline-warning edit-recipient" data-id="{{book['id']}}">
+                     <i class="bi bi-pencil"></i> Sửa
+                   </button>
+                   <button class="btn btn-outline-danger delete-recipient" data-id="{{book['id']}}">
+                     <i class="bi bi-trash"></i> Xóa
+                   </button>
+                 </div>
+               </div>
+             </div>
+             {% endfor %}
+             </div>
+          {% else %}
+             <h4>Không tìm thấy người nhận thông báo!</h4>
+             <p>Vui lòng thêm người nhận mới</p>
+          {% endif %}
+       </div>
+    </div>
+
+    <!-- Add/Edit Modal -->
+    <div class="modal fade" id="recipientModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle">Thêm/Sửa người nhận</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="recipientForm">
+                        <input type="hidden" id="recipientId">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Tên</label>
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="notiEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="notiEmail" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Lưu</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for AJAX operations
+        $(document).ready(function() {
+            // Add recipient
+            $('#addRecipientBtn').click(function() {
+                $('#modalTitle').text('Thêm người nhận');
+                $('#recipientId').val('');
+                $('#name').val('');
+                $('#notiEmail').val('');
+                $('#recipientModal').modal('show');
+            });
+
+            // Edit recipient
+            $('.edit-recipient').click(function() {
+                const id = $(this).data('id');
+                $('#modalTitle').text('Sửa người nhận');
+                $('#recipientId').val(id);
+                // Fetch recipient data and populate form
+                // This is a placeholder - you need to implement the actual AJAX call
+                $('#recipientModal').modal('show');
+            });
+
+            // Delete recipient
+            $('.delete-recipient').click(function() {
+                const id = $(this).data('id');
+                if (confirm('Bạn có chắc chắn muốn xóa người nhận này?')) {
+                    // Implement delete AJAX call
+                }
+            });
+
+            // Form submission
+            $('#recipientForm').submit(function(e) {
+                e.preventDefault();
+                const id = $('#recipientId').val();
+                const data = {
+                    name: $('#name').val(),
+                    noti_email: $('#notiEmail').val()
+                };
+
+                // Implement AJAX call for add/edit
+                // Use POST for new recipients, PUT for existing ones
+
+                $('#recipientModal').modal('hide');
+            });
+        });
+    </script>
+{% endblock %}

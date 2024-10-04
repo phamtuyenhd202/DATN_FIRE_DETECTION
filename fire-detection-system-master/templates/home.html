@@ -1,0 +1,48 @@
+{%extends "/shared/layout.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block head %}
+	{{ super() }}
+
+    <link rel="stylesheet" href="/static/home.css" />
+{% endblock %}
+
+{% block content %}
+	<div class="container d-flex h-75">
+	    <div class="row justify-content-center  welcome">
+	    	<h1><span class="icon"> <img src="static/images/fire.png" ></span>XIN CHÀO<span class="icon"> <img src="static/images/fire.png" ></span></h1>
+			<div style="width:100%">
+
+               <ul class="nav justify-content-center mr-4">
+			  {% if g and g.user %}
+				  <li class="nav-item mx-5">
+				    <a class="nav-link btn btn-primary fs-1" href="/camera/">Mở camera</a>
+				  </li>
+				  <li class="nav-item mx-5">
+				    <form action="/detect/" method="post" enctype="multipart/form-data" class="d-flex flex-column align-items-center">
+
+						<ul class="nav justify-content-center mr-4">
+							<li class="nav-item mx-5">
+								<input type="file" name="video" accept="video/*" class="form-control mb-2">
+				            </li>
+							<li class="nav-item mx-5">
+								<button type="submit" class="nav-link btn btn-primary fs-1">Nhận diện video</button>
+				            </li>
+						</ul>
+                    </form>
+				  </li>
+			  {% else %}
+				  <li class="nav-item mx-5">
+				    <a class="nav-link btn btn-primary" href="/signin">Đăng nhập</a>
+				  </li>
+				  <li class="nav-item mx-5">
+				    <a class="nav-link btn btn-primary" href="/signup">Đăng ký</a>
+				  </li>
+			  {% endif %}
+			</ul>
+
+			</div>
+	    </div>
+	</div>
+{% endblock %}

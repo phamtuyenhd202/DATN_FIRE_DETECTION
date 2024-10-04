@@ -1,0 +1,13 @@
+.welcome {
+	    margin: 0 auto;
+}
+
+.welcome h1 {
+	font-size: 3.5em;
+}
+
+.icon img {
+            width: 1em;
+            height: 1em;
+            margin-right: 10px;
+        }
